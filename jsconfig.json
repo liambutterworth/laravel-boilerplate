@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "baseUrl": ".",
+        "jsx": "preserve",
+
+        "paths": {
+            "@css": "resources/css",
+            "@js": "resources/js",
+            "@components": "resources/js/components",
+            "@concerns": "resources/js/concerns",
+            "@modules": "resources/js/modules"
+        }
+    },
+
+    "include": ["resources/js/**/*"]
+}

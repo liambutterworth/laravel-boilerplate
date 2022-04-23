@@ -1,0 +1,7 @@
+@import '@css/_settings';
+@import '@css/_functions';
+
+@mixin font-size($target-font-size) {
+    font-size: font-size($target-font-size);
+    line-height: line-height($target-font-size);
+}

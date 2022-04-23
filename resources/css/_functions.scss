@@ -1,0 +1,34 @@
+//
+// Functions
+//
+
+@use 'sass:math';
+
+@import '@css/_settings';
+
+@function strip-unit($num) {
+    @return math.div($num, $num * 0 + 1);
+}
+
+@function px-to-rem($px) {
+    @return math.div($px, $base-font-size) * 1rem;
+}
+
+@function font-size($target-font-size) {
+    @return px-to-rem($target-font-size);
+}
+
+@function line-height($target-font-size) {
+    $line: $base-font-size * $base-line-height;
+    $count: ceil(math.div($target-font-size, $base-font-size * $base-line-height));
+
+    @return px-to-rem($line * $count);
+}
+
+@function lines($count) {
+    @return $base-line-height * $count * 1rem;
+}
+
+@function lines-subtract-px($count, $px) {
+    @return lines($count) - px-to-rem($px);
+}

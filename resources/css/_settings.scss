@@ -1,0 +1,60 @@
+//
+// Variables
+//
+// :: Baseline
+// :: Colors
+// :: Grid
+// :: Layout
+// :: Typography
+
+//
+// Baseline
+//
+
+$base-font-size: 16px;
+$base-line-height: 1.5;
+
+//
+// Breakpoints
+//
+
+$tiny-breakpoint: 480px;
+$small-breakpoint: 768px;
+$medium-breakpoint: 1024px;
+$large-breakpoint: 1280px;
+
+//
+// Colors
+//
+
+$background-color: #dfdfde;
+$foreground-color: #333;
+
+$primary-color: red;
+$secondary-color: blue;
+$tertiary-color: green;
+
+$border-color: black;
+
+$success-color: #a3be8c;
+$error-color: #bf616a;
+
+//
+// Grid
+//
+
+$grid-columns: 12;
+$grid-gutter: 1;
+
+//
+// Layout
+//
+
+$wrapper-width: 1024px;
+$border-radius: 2px;
+
+//
+// Typography
+//
+
+$font-family: Open Sans;
