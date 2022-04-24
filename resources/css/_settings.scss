@@ -29,29 +29,21 @@ $large-breakpoint: 1280px;
 
 $background-color: #dfdfde;
 $foreground-color: #333;
-
 $primary-color: red;
 $secondary-color: blue;
 $tertiary-color: green;
-
 $border-color: black;
-
 $success-color: #a3be8c;
 $error-color: #bf616a;
-
-//
-// Grid
-//
-
-$grid-columns: 12;
-$grid-gutter: 1;
 
 //
 // Layout
 //
 
-$wrapper-width: 1024px;
 $border-radius: 2px;
+$column-total: 12;
+$gutter-lines: 1;
+$wrapper-width: 1024px;
 
 //
 // Typography

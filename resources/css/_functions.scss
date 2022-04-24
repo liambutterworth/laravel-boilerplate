@@ -32,3 +32,7 @@
 @function lines-subtract-px($count, $px) {
     @return lines($count) - px-to-rem($px);
 }
+
+@function column-size($count) {
+    @return percentage(math.div($count, $column-total));
+}
