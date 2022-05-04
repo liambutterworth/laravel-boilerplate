@@ -1,126 +1,88 @@
 <template>
-    <div :class="classes">
-        <template v-if="inForm">
-            <input v-if="!hasSelection" type="hidden" :name="name" :value="null" />
-            <input v-for="selection in selections" type="hidden" :name="name" :value="selection" />
-        </template>
+    <select-container v-bind="$props" v-slot="{
+        deselect,
+        isMultiSelect,
+        label,
+        search,
+        selections,
+    }">
+        <div :class="classes" ref="root">
+            <div class="search-select__label" @click="toggle">
+                {{ label }}
+            </div>
 
-        <div class="form-select__label" @click="toggleActive">
-            {{ label }}
-        </div>
+            <button class="search-select__button" @click.prevent.stop="toggle">
+                <i class="search-select__search-icon" @click.stop="toggle">
+                    <close-icon v-if="isActive" />
+                    <search-icon v-else />
+                </i>
 
-        <button class="form-select__button" @click.prevent.stop="toggleActiveWhenNotSearching">
-            <i
-                v-if="isSearchable"
-                class="form-select__search-icon"
-                @click.prevent.stop="toggleActive"
-            >
-                <close-icon v-if="isSearching" />
-                <search-icon v-else />
-            </i>
+                <input
+                    v-if="isActive"
+                    ref="input"
+                    class="search-select__search"
+                    type="text"
+                    @click.stop
+                    @input="search($event.target.value)"
+                />
 
-            <input
-                v-if="isSearching"
-                ref="searchInput"
-                class="form-select__search"
-                type="text"
-                v-model="searchString"
-            />
+                <span v-if="!isMultiSelect && !isActive" class="search-select__text">
+                    {{ text }}
+                </span>
 
-            <span v-if="!isMultiSearch" class="form-select__text">
-                {{ text }}
-            </span>
+                <ul v-if="isMultiSelect && !isActive" class="search-select__chips">
+                    <li
+                        v-for="selection in selections"
+                        class="search-select__chip"
+                        @click="deselect(selection)"
+                    >
+                        {{ selection.text }}
 
-            <ul v-if="isMultiSearch && !isSearching" class="form-select__chips">
-                <li
-                    v-for="selection in selections"
-                    class="form-select__chip"
-                    @click.prevent.stop="deselect(selection)"
-                >
-                    {{ selection.text }}
+                        <i class="search-select__chip__close-icon">
+                            <close-icon size="small" />
+                        </i>
+                    </li>
+                </ul>
 
-                    <i class="form-select__chip__close-icon">
-                        <close-icon size="small" />
-                    </i>
-                </li>
+                <i class="search-select__dropdown-icon" @click.stop="toggle">
+                    <chevron-icon :direction="isActive ? 'up' : 'down'" />
+                </i>
+            </button>
+
+            <ul class="search-select__listbox" role="listbox">
+                <slot />
             </ul>
-
-            <i class="form-select__dropdown-icon" @click.prevent.stop="toggleActive">
-                <chevron-icon :direction="direction" />
-            </i>
-        </button>
-
-        <ul class="form-select__listbox" role="listbox">
-            <slot />
-        </ul>
-    </div>
+        </div>
+    </select-container>
 </template>
 
 <script setup>
 
-import _ from 'lodash';
-import { computed, inject, nextTick, ref, watch } from 'vue';
-import { useSelect } from '@concerns/Select';
+import { computed, nextTick, ref } from 'vue';
 import { onClickOutside } from '@concerns/Events';
 import ChevronIcon from '@components/Icons/ChevronIcon';
 import CloseIcon from '@components/Icons/CloseIcon';
 import SearchIcon from '@components/Icons/SearchIcon';
+import SelectContainer from '@components/Forms/Selects/SelectContainer';
 
-const props = defineProps({
-    ensure: { type: Boolean, default: true },
-    label: { type: String, required: true },
-    multi: { type: Boolean, default: true },
-    name: { type: String, required: true },
-    search: { type: Boolean, default: false },
-    value: { default: null },
-});
-
-const { deselect, hasSelection, search, selected, selections } = useSelect({
-    ensure: props.ensure,
-    multi: props.multi,
-    selected: props.value,
-});
-
-const emit = defineEmits(['update:value']);
-const form = inject('form', null);
-const text = computed(() => _.join(_.castArray(selected.value), ', '));
-const name = computed(() => (props.multi && hasSelection.value ? `${props.name}[]` : props.name));
-const searchInput = ref(null);
-const searchString = ref(null);
 const isActive = ref(false);
-const isMultiSearch = computed(() => props.multi);
-const isSearchable = computed(() => props.search);
-const isSearching = computed(() => isSearchable.value && isActive.value);
-const inForm = computed(() => !_.isUndefined(form));
-const direction = computed(() => isActive.value ? 'up' : 'down');
+const root = ref(null)
+const input = ref(null);
 
 const classes = computed(() => ({
-    'form-select': true,
-    'form-select--is-active': isActive.value,
-    'form-select--is-searching': isSearching.value,
+    'search-select': true,
+    'search-select--is-active': isActive.value,
 }));
 
-function deactivate() {
-    isActive.value = false;
-}
-
-function toggleActive() {
+function toggle() {
     isActive.value = !isActive.value;
 
-    if (isSearching.value) {
-        nextTick(() => searchInput.value.focus());
+    if (isActive.value) {
+        nextTick(() => input.value.focus());
     }
 }
 
-function toggleActiveWhenNotSearching() {
-    if (!isSearching.value) {
-        toggleActive();
-    }
-}
-
-watch(selected, () => emit('update:value', selected.value), { immediate: true });
-watch(searchString, () => search(searchString.value));
-onClickOutside(() => deactivate());
+onClickOutside(root, () => isActive.value = false);
 
 </script>
 
@@ -129,15 +91,15 @@ onClickOutside(() => deactivate());
 @import '@css/_functions';
 @import '@css/_settings';
 
-.form-select {
+.search-select {
     position: relative;
 
-    .form-select__label {
+    .search-select__label {
         cursor: pointer;
         font-weight: bold;
     }
 
-    .form-select__button {
+    .search-select__button {
         align-items: center;
         background: #fff;
         border: 1px solid $border-color;
@@ -151,8 +113,8 @@ onClickOutside(() => deactivate());
         width: 100%;
     }
 
-    .form-select__search-icon,
-    .form-select__dropdown-icon {
+    .search-select__search-icon,
+    .search-select__dropdown-icon {
         align-items: center;
         border-radius: $border-radius;
         display: flex;
@@ -165,11 +127,11 @@ onClickOutside(() => deactivate());
         }
     }
 
-    .form-select__dropdown-icon {
+    .search-select__dropdown-icon {
         margin-left: auto;
     }
 
-    .form-select__search {
+    .search-select__search {
         border: none;
         border-bottom: 1px solid $border-color;
         flex-grow: 1;
@@ -179,7 +141,7 @@ onClickOutside(() => deactivate());
         outline: none;
     }
 
-    .form-select__chips {
+    .search-select__chips {
         display: flex;
         flex-grow: 1;
         flex-wrap: wrap;
@@ -187,7 +149,7 @@ onClickOutside(() => deactivate());
         padding: 0 lines(0.125);
     }
 
-    .form-select__chip {
+    .search-select__chip {
         background: $success-color;
         box-shadow: 0 3px 3px rgba(0, 0, 0, 0.25);
         color: #fff;
@@ -195,7 +157,7 @@ onClickOutside(() => deactivate());
         gap: lines(0.25);
         padding: lines(0.25) lines(0.5);
 
-        .form-select__chip__close-icon {
+        .search-select__chip__close-icon {
             margin-left: lines(0.25);
         }
 
@@ -204,7 +166,7 @@ onClickOutside(() => deactivate());
         }
     }
 
-    .form-select__listbox {
+    .search-select__listbox {
         background: #fff;
         border: 1px solid $border-color;
         border-radius: 0 0 $border-radius $border-radius;
@@ -218,12 +180,12 @@ onClickOutside(() => deactivate());
         z-index: 1;
     }
 
-    &.form-select--is-active {
-        .form-select__button {
+    &.search-select--is-active {
+        .search-select__button {
             border-bottom-color: #fff;
         }
 
-        .form-select__listbox {
+        .search-select__listbox {
             display: block;
         }
     }

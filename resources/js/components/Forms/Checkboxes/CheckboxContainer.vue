@@ -1,13 +1,17 @@
 <template>
-    <input type="hidden" :name="name" :value="value" />
-
-    <slot
-        :checkbox-classes="classes"
-        :is-checked="isChecked"
-        :label="label"
-        :toggle="toggle"
+    <input
+        type="hidden"
+        :name="name"
         :value="value"
     />
+
+    <slot v-bind="{
+        checkboxClasses,
+        isChecked,
+        label,
+        toggle,
+        value,
+    }" />
 </template>
 
 <script>
@@ -28,7 +32,7 @@ const props = defineProps({
     value: { type: Boolean, required: true },
 });
 
-const classes = computed(() => ({
+const checkboxClasses = computed(() => ({
     'checkbox': true,
 }));
 

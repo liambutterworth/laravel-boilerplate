@@ -4,25 +4,35 @@
             Header
         </template>
 
-        <search-select label="Testing" name="testing" v-model:value="optionTest">
+        <basic-select
+            label="Select Test"
+            name="testselect"
+            v-model:value="selectValue"
+        >
             <basic-option
-                v-for="(option, index) in options"
-                :key="index"
+                v-for="option in options"
                 :value="option.value"
                 :text="option.text"
             />
-        </search-select>
+        </basic-select>
 
-        <br />
+        <basic-textbox
+            label="Testbox"
+            name="testbox"
+            v-model:value="textboxValue"
+        />
 
-        <basic-textbox label="Testbox" name="testbox" v-model:value="textboxValue" />
-        <basic-textarea label="Testarea"  name="testarea" v-model:value="textareaValue" />
+        <basic-textarea
+            label="Testarea"
+            name="testarea"
+            v-model:value="textareaValue"
+        />
 
-        <basic-checkbox label="Checkbox Test" name="checkbox-test" v-model:value="checkboxValue" />
+        <!-- <basic-checkbox label="Checkbox Test" name="checkbox-test" v-model:value="checkboxValue" /> -->
 
-        <radio-group label="Radio Test" name="radio-test" v-model:value="radioTest">
-            <basic-radio v-for="radio in radios" :text="radio.text" :value="radio.value" />
-        </radio-group>
+        <!-- <radio-group label="Radio Test" name="radio-test" v-model:value="radioTest"> -->
+        <!--     <basic-radio v-for="radio in radios" :text="radio.text" :value="radio.value" /> -->
+        <!-- </radio-group> -->
     </section-layout>
 
     <row-layout :wrap="true" :gutter="true" :push-bottom="1">
@@ -63,7 +73,9 @@
 import { ref, watch } from 'vue';
 import BasicOption from '@components/Forms/Options/BasicOption';
 import ToggleOption from '@components/Forms/Options/ToggleOption';
+import BasicSelect from '@components/Forms/Selects/BasicSelect';
 import SearchSelect from '@components/Forms/Selects/SearchSelect';
+// import SearchSelect from '@components/Forms/Selects/SearchSelect.bak';
 import SectionLayout from '@components/Layouts/SectionLayout';
 import RowLayout from '@components/Layouts/RowLayout';
 import ColumnLayout from '@components/Layouts/ColumnLayout';
@@ -86,6 +98,7 @@ const radios = ref([
 
 const optionTest = ref(options.value[0].value);
 const radioTest = ref(radios.value[1].value);
+const selectValue = ref(null);
 const checkboxValue = ref(false);
 const textboxValue = ref('foobar');
 const textareaValue = ref('This is some text');

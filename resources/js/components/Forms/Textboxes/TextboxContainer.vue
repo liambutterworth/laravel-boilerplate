@@ -1,13 +1,22 @@
 <template>
-    <slot
-        :id="id"
-        :handleInput="handleInput"
-        :hasLabel="hasLabel"
-        :label="label"
-        :type="type"
-        :value="value"
-    />
+    <slot v-bind="{
+        handleInput,
+        hasLabel,
+        id,
+        label,
+        name,
+        type,
+        value,
+    }" />
 </template>
+
+<script>
+
+export default {
+    inheritAttrs: false,
+}
+
+</script>
 
 <script setup>
 
@@ -16,8 +25,9 @@ import { computed } from 'vue';
 
 const props = defineProps({
     id: { type: String },
-    throttle: { type: Number, default: 500 },
     label: { type: String },
+    name: { type: String, required: true },
+    throttle: { type: Number, default: 500 },
     value: { required: true },
 
     type: {

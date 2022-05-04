@@ -1,10 +1,9 @@
+import _ from 'lodash';
 import { getCurrentInstance, onMounted, onUnmounted } from 'vue';
 
-export function onClickOutside(callback) {
-    const { ctx } = getCurrentInstance();
-
+export function onClickOutside(ref, callback) {
     function handleClick(event) {
-        if (ctx.$el !== event.target && !ctx.$el.contains(event.target)) {
+        if (ref.value !== event.target && !ref.value.contains(event.target)) {
             callback(event);
         }
     }

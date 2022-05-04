@@ -1,11 +1,11 @@
 <template>
-    <slot
-        :is-selected="isSelected"
-        :is-visible="isVisible"
-        :option-classes="classes"
-        :select="select"
-        :text="text"
-    />
+    <slot v-bind="{
+        isSelected,
+        isVisible,
+        optionClasses,
+        select,
+        text,
+    }" />
 </template>
 
 <script>
@@ -18,7 +18,6 @@ export default {
 
 <script setup>
 
-import _ from 'lodash';
 import { computed, onBeforeMount } from 'vue';
 import { useSelectable } from '@concerns/Select'
 
@@ -33,7 +32,7 @@ const { isSelected, isVisible, select, text } = useSelectable({
     value: props.value,
 });
 
-const classes = computed(() => ({
+const optionClasses = computed(() => ({
     'option': true,
     'option--is-selected': isSelected.value,
     'option--is-visible': isVisible.value,

@@ -1,12 +1,12 @@
 <template>
-    <slot
-        :id="id"
-        :handleInput="handleInput"
-        :hasLabel="hasLabel"
-        :label="label"
-        :type="type"
-        :value="value"
-    />
+    <slot v-bind="{
+        id,
+        handleInput,
+        hasLabel,
+        label,
+        type,
+        value,
+    }" />
 </template>
 
 <script>

@@ -1,5 +1,13 @@
 <template>
-    <textbox-container v-bind="$props" v-slot="{ hasLabel, label, id, type, value, handleInput }">
+    <textbox-container v-bind="$props" v-slot="{
+        hasLabel,
+        label,
+        name,
+        id,
+        type,
+        value,
+        handleInput,
+    }">
         <div :class="classes">
             <label v-if="hasLabel" class="basic-textbox__label" :for="id">
                 {{ label }}
@@ -9,6 +17,7 @@
                 class="basic-textbox__input"
                 v-bind="$attrs"
                 :id="id"
+                :name="name"
                 :type="type"
                 :value="value"
                 @input="handleInput"
@@ -16,14 +25,6 @@
         </div>
     </textbox-container>
 </template>
-
-<script>
-
-export default {
-    inheritAttrs: false,
-}
-
-</script>
 
 <script setup>
 
