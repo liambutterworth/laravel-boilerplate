@@ -6,13 +6,13 @@ const aliases = {
     '@js': path.join(__dirname, 'resources/js'),
     '@components': path.join(__dirname, 'resources/js/components'),
     '@concerns': path.join(__dirname, 'resources/js/concerns'),
-    '@modules': path.join(__dirname, 'resources/js/modules'),
+    '@views': path.join(__dirname, 'resources/js/views'),
 };
 
 mix
     .alias(aliases)
-    .js('resources/js/app.js', 'public/js')
-    .sass('resources/css/app.scss', 'public/css')
+    .js('resources/js/main.js', 'public/js')
+    .sass('resources/css/main.scss', 'public/css')
     .vue()
     .sourceMaps()
     .version();

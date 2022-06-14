@@ -24,6 +24,21 @@ body {
     font-family: $font-family;
 }
 
+h1 { @include font-size(60px); }
+h2 { @include font-size(48px); }
+h3 { @include font-size(36px); }
+h4 { @include font-size(30px); }
+h5 { @include font-size(24px); }
+h6 { @include font-size(18px); }
+
+h1, h2, h3, h4, h5, h6, b, strong {
+    font-weight: bold;
+}
+
+i, em {
+    font-style: italic;
+}
+
 ol, ul {
     list-style: none;
 }
@@ -32,36 +47,3 @@ img {
     max-width: 100%;
     height: auto;
 }
-
-h1 {
-    @include font-size(60px);
-}
-
-h2 {
-    @include font-size(48px);
-}
-
-h3 {
-    @include font-size(36px);
-}
-
-h4 {
-    @include font-size(30px);
-}
-
-h5 {
-    @include font-size(24px);
-}
-
-h6 {
-    @include font-size(18px);
-}
-
-b {
-    font-weight: bold;
-}
-
-i {
-    font-style: italic;
-}
-

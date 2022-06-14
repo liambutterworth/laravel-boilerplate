@@ -1,17 +1,16 @@
 import { createApp } from 'vue';
 import { createRouter, createWebHistory } from 'vue-router';
-import { useModules } from '@modules';
+import { createRoutes } from '@js/routes';
 
-const app = createApp({
+export const app = createApp({
     template: '<router-view />',
 });
 
-const router = createRouter({
+export const router = createRouter({
     history: createWebHistory(),
-    routes: [],
+    routes: createRoutes(),
 });
 
-useModules({ app, router });
-
 app.use(router);
+
 app.mount('#app');

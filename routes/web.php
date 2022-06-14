@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,5 +13,4 @@ use App\Http\Controllers\HomeController;
 |
 */
 
-Route::post('/submit', [HomeController::class, 'submit']);
-Route::get('/{path?}', [HomeController::class, 'show']);
+Route::get('/{path?}', fn () => view('app'));
