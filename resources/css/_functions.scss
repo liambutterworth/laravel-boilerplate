@@ -15,14 +15,14 @@
 }
 
 @function font-size($target-font-size) {
-    @return px-to-rem($target-font-size);
+    @return $target-font-size / $base-font-size * 1rem;
 }
 
 @function line-height($target-font-size) {
     $line: $base-font-size * $base-line-height;
-    $count: ceil(math.div($target-font-size, $base-font-size * $base-line-height));
+    $count: ceil($target-font-size / $base-font-size * $base-line-height);
 
-    @return px-to-rem($line * $count);
+    @return $line * $count * 1rem;
 }
 
 @function lines($count) {
